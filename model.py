@@ -7,7 +7,7 @@ import torchvision.transforms as transforms
 class RegressionModel(nn.Module):
     def __init__(self, num_classes=1):
         super(RegressionModel, self).__init__()
-        self.resnet = models.resnet50(pretrained=True)
+        self.resnet = models.resnet50()
         # Modify the first layer to accept 1 channel input
         self.resnet.conv1 = nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
         in_features = self.resnet.fc.in_features
@@ -24,3 +24,6 @@ class RegressionModel(nn.Module):
         features = self.resnet(x)
         output = self.linear_layers(features)
         return output
+    
+
+     
