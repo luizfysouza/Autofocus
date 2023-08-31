@@ -27,3 +27,21 @@ class RegressionModel(nn.Module):
     
 
      
+class CustomAugmentation(nn.Module):
+    def __init__(self, contrast_range=(0.2, 1.5), intensity_range=(0.2, 2)):
+        super(CustomAugmentation, self).__init__()
+        self.contrast_range = contrast_range
+        self.intensity_range = intensity_range
+
+    def forward(self, x):
+        # Apply random contrast adjustment
+        contrast_factor = torch.FloatTensor(1).uniform_(*self.contrast_range).item()
+        x = transforms.functional.adjust_contrast(x, contrast_factor)
+
+        # Apply random intensity adjustment
+        intensity_factor = torch.FloatTensor(1).uniform_(*self.intensity_range).item()
+        x = transforms.functional.adjust_brightness(x, intensity_factor)
+
+        return x
+
+
